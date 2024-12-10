@@ -1,24 +1,32 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## usersテーブル(ユーザー情報)
+| Column              | Type       | Options                        |
+| ------              | ---------- | ------------------------------ |
+| email               | string     | null: false, unique: true      |
+| encrypted_password  | string     | null: false                    |
+| nickname            | string     | null: false                    |
 
-Things you may want to cover:
+### users
+- `has_many :subjects`
 
-* Ruby version
 
-* System dependencies
+## subjectsテーブル(科目情報)
+| Column              | Type       | Options                        |
+| ------              | ---------- | ------------------------------ |
+| name                | string     | null: false                    |
+| credits             | integer    | null: false                    |
+| category_id         | integer    | null: false                    |
+| user_id             | integer    | null: false                    |
 
-* Configuration
+### subjects
+- `belongs_to :user`
+- `belongs_to :category`
 
-* Database creation
+##  categories テーブル (科目カテゴリの管理)
+| Column              | Type       | Options                        |
+| ------              | ---------- | ------------------------------ |
+| name                | string     | null: false                    |
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### categories
+`has_many :subjects`
