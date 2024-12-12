@@ -76,6 +76,4 @@ group :production do
 end
 
 gem 'devise'            # ユーザー認証
-gem 'chartkick'         # グラフ表示
-gem 'groupdate'         # データのグループ化（Chartkickで必要）
-gem 'bootstrap', '~> 5.2' # フロントエンドの整備（デザイン用）
+
