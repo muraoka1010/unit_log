@@ -1,0 +1,43 @@
+<div class="container">
+  <header class="app-header">
+    <h1>UnitLog</h1>
+    <nav class="auth-nav">
+      <% if user_signed_in? %>
+        <span class="user-greeting">こんにちは、<%= current_user.nickname %>さん</span>
+        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-outline' %>
+      <% else %>
+        <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
+        <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-outline' %>
+      <% end %>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <section class="app-description">
+      <h2>単位管理をもっと簡単に</h2>
+      <p>「UnitLog」は、大学で取得した単位を効率的に管理し、卒業までの進捗を一目で把握できるツールです。</p>
+      <ul class="feature-list">
+        <li>簡単な単位入力</li>
+        <li>カテゴリ別の自動集計</li>
+        <li>視覚的な進捗表示</li>
+        <li>卒業要件のチェック</li>
+      </ul>
+    </section>
+
+    <% if user_signed_in? %>
+      <section class="user-dashboard-preview">
+        <h2><%= current_user.nickname %>さんの進捗状況</h2>
+        <%= link_to 'ダッシュボードで詳細を確認', subjects_path, class: 'btn btn-large btn-primary' %>
+      </section>
+    <% else %>
+      <section class="cta-section">
+        <h2>今すぐ始めましょう！</h2>
+        <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-large btn-primary' %>
+      </section>
+    <% end %>
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; 2024 UnitLog. All rights reserved.</p>
+  </footer>
+</div>
