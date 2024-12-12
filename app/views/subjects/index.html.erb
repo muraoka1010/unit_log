@@ -1,43 +1,130 @@
-<div class="container">
-  <header class="app-header">
-    <h1>UnitLog</h1>
-    <nav class="auth-nav">
-      <% if user_signed_in? %>
-        <span class="user-greeting">こんにちは、<%= current_user.nickname %>さん</span>
-        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-outline' %>
-      <% else %>
-        <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
-        <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-outline' %>
-      <% end %>
-    </nav>
-  </header>
+<div class="dashboard">
+  <h1>単位管理ダッシュボード</h1>
+  
+  <div class="dashboard-grid">
+    <section class="card progress-overview">
+      <h2>進捗状況の概要</h2>
+      <div class="progress-bars">
+        <div class="progress-item">
+          <label>必修科目</label>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 83%;" data-progress="83"></div>
+          </div>
+          <span class="progress-text">25/30単位 (83%)</span>
+        </div>
+        <div class="progress-item">
+          <label>選択科目</label>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 70%;" data-progress="70"></div>
+          </div>
+          <span class="progress-text">35/50単位 (70%)</span>
+        </div>
+        <div class="progress-item">
+          <label>自由科目</label>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 60%;" data-progress="60"></div>
+          </div>
+          <span class="progress-text">12/20単位 (60%)</span>
+        </div>
+      </div>
+    </section>
 
-  <main class="app-main">
-    <section class="app-description">
-      <h2>単位管理をもっと簡単に</h2>
-      <p>「UnitLog」は、大学で取得した単位を効率的に管理し、卒業までの進捗を一目で把握できるツールです。</p>
-      <ul class="feature-list">
-        <li>簡単な単位入力</li>
-        <li>カテゴリ別の自動集計</li>
-        <li>視覚的な進捗表示</li>
-        <li>卒業要件のチェック</li>
+    <section class="card remaining-units">
+      <h2>残り単位数</h2>
+      <div class="remaining-units-grid">
+        <div class="remaining-unit-item">
+          <span class="remaining-unit-label">必修</span>
+          <span class="remaining-unit-value">5単位</span>
+        </div>
+        <div class="remaining-unit-item">
+          <span class="remaining-unit-label">選択</span>
+          <span class="remaining-unit-value">15単位</span>
+        </div>
+        <div class="remaining-unit-item">
+          <span class="remaining-unit-label">自由</span>
+          <span class="remaining-unit-value">8単位</span>
+        </div>
+        <div class="remaining-unit-item total">
+          <span class="remaining-unit-label">合計</span>
+          <span class="remaining-unit-value">28単位</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card unit-list">
+      <h2>取得単位リスト</h2>
+      <div class="unit-list-controls">
+        <select id="unit-list-sort">
+          <option value="name">名前順</option>
+          <option value="credits">単位数順</option>
+          <option value="category">カテゴリ別</option>
+        </select>
+      </div>
+      <ul class="unit-items">
+        <li class="unit-item required">
+          <span class="unit-name">数学I</span>
+          <span class="unit-credits">2単位</span>
+          <span class="unit-category">必修</span>
+        </li>
+        <li class="unit-item elective">
+          <span class="unit-name">英語コミュニケーション</span>
+          <span class="unit-credits">1単位</span>
+          <span class="unit-category">選択</span>
+        </li>
+        <li class="unit-item free">
+          <span class="unit-name">美術史</span>
+          <span class="unit-credits">2単位</span>
+          <span class="unit-category">自由</span>
+        </li>
+        <!-- More list items would go here -->
       </ul>
     </section>
 
-    <% if user_signed_in? %>
-      <section class="user-dashboard-preview">
-        <h2><%= current_user.nickname %>さんの進捗状況</h2>
-        <%= link_to 'ダッシュボードで詳細を確認', subjects_path, class: 'btn btn-large btn-primary' %>
-      </section>
-    <% else %>
-      <section class="cta-section">
-        <h2>今すぐ始めましょう！</h2>
-        <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-large btn-primary' %>
-      </section>
-    <% end %>
-  </main>
+    <section class="card unit-graph">
+      <h2>単位取得状況グラフ</h2>
+      <canvas id="unitChart"></canvas>
+    </section>
 
-  <footer class="app-footer">
-    <p>&copy; 2024 UnitLog. All rights reserved.</p>
-  </footer>
+    <section class="card graduation-check">
+      <h2>卒業要件チェック</h2>
+      <div class="graduation-status">
+        <p>現在の状況: <strong>残り28単位で卒業要件を満たします</strong></p>
+        <ul>
+          <li>必修科目: 残り5単位</li>
+          <li>選択科目: 残り15単位</li>
+          <li>自由科目: 残り8単位</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <div class="operation-menu">
+    <button class="btn btn-primary" id="add-unit">単位を追加</button>
+    <button class="btn btn-secondary" id="edit-units">単位を編集/削除</button>
+    <button class="btn btn-secondary" id="customize-requirements">卒業要件をカスタマイズ</button>
+  </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var ctx = document.getElementById('unitChart').getContext('2d');
+    var unitChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['必修', '選択', '自由'],
+        datasets: [{
+          data: [25, 35, 12],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: '単位取得状況'
+        }
+      }
+    });
+  });
+</script>
