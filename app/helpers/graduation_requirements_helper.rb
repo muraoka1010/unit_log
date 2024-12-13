@@ -1,0 +1,2 @@
+module GraduationRequirementsHelper
+end

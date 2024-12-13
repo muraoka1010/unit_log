@@ -99,9 +99,13 @@
   </div>
 
   <div class="operation-menu">
-    <button class="btn btn-primary" id="add-unit">単位を追加</button>
-    <button class="btn btn-secondary" id="edit-units">単位を編集/削除</button>
-    <button class="btn btn-secondary" id="customize-requirements">卒業要件をカスタマイズ</button>
+    <%= link_to '単位を追加', new_subject_path, class: 'btn btn-primary', id: 'add-unit' %>
+    <%= link_to '単位を編集/削除', edit_subjects_path, class: 'btn btn-secondary', id: 'edit-units' %>
+    <% if @graduation_requirement.present? %>
+      <%= link_to '卒業要件を編集', edit_graduation_requirement_path(@graduation_requirement.id), class: 'btn btn-secondary', id: 'customize-requirements' %>
+    <% else %>
+      <%= link_to '卒業要件を設定', new_graduation_requirement_path, class: 'btn btn-primary', id: 'set-requirements' %>
+    <% end %>
   </div>
 </div>
 

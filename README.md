@@ -30,3 +30,14 @@
 
 ### categories
 `has_many :subjects`
+`has_one :graduation_requirement`
+
+
+##  graduation_requirements テーブル (卒業要項)
+|Column	              | Type	      | Options                        |
+| ------              | ----------  | ------------------------------ |
+| category_id         | integer     | null: false, foreign_key: true |
+| required_credits    | integer     | null: false                    |
+
+### graduation_requirements
+`belongs_to :category`
