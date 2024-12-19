@@ -53,32 +53,25 @@
 
     <section class="card unit-list">
       <h2>取得単位リスト</h2>
-      <div class="unit-list-controls">
-        <select id="unit-list-sort">
-          <option value="name">名前順</option>
-          <option value="credits">単位数順</option>
-          <option value="category">カテゴリ別</option>
-        </select>
-      </div>
+        <div class="unit-list-controls">
+          <select id="unit-list-sort">
+            <option value="name">名前順</option>
+            <option value="credits">単位数順</option>
+            <option value="category">カテゴリ別</option>
+          </select>
+        </div>
       <ul class="unit-items">
-        <li class="unit-item required">
-          <span class="unit-name">数学I</span>
-          <span class="unit-credits">2単位</span>
-          <span class="unit-category">必修</span>
+       <% @subjects.each do |subject| %>
+        <li class="unit-item">
+          <span class="unit-name"><%= subject.name %></span>
+          <span class="unit-credits"><%= subject.credits %>単位</span>
+          <span class="unit-category"><%= subject.category %></span>
+          <%= link_to '単位を編集/削除', edit_subject_path(subject), class: 'btn btn-secondary', id: "edit-unit-#{subject.id}" %>
         </li>
-        <li class="unit-item elective">
-          <span class="unit-name">英語コミュニケーション</span>
-          <span class="unit-credits">1単位</span>
-          <span class="unit-category">選択</span>
-        </li>
-        <li class="unit-item free">
-          <span class="unit-name">美術史</span>
-          <span class="unit-credits">2単位</span>
-          <span class="unit-category">自由</span>
-        </li>
-        <!-- More list items would go here -->
+       <% end %>
       </ul>
     </section>
+
 
     <section class="card unit-graph">
       <h2>単位取得状況グラフ</h2>
@@ -100,7 +93,6 @@
 
   <div class="operation-menu">
     <%= link_to '単位を追加', new_subject_path, class: 'btn btn-primary', id: 'add-unit' %>
-    <%= link_to '単位を編集/削除', edit_subjects_path, class: 'btn btn-secondary', id: 'edit-units' %>
     <% if @graduation_requirement.present? %>
       <%= link_to '卒業要件を編集', edit_graduation_requirement_path(@graduation_requirement.id), class: 'btn btn-secondary', id: 'customize-requirements' %>
     <% else %>

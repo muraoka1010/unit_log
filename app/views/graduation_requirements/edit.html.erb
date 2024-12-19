@@ -1,0 +1,30 @@
+<div class="customize-requirements-page">
+  <h1>卒業要件のカスタマイズ</h1>
+
+  <%= form_with(model: @graduation_requirement, local: true, class: 'customize-requirements-form') do |form| %>
+    <div class="form-group">
+      <%= form.label :required_credits, '必要単位数' %>
+      <%= form.number_field :required_credits %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :required_credits, '必修科目の必要単位数' %>
+      <%= form.number_field :required_core_credits, min: 0, step: 1, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :elective_credits, '選択科目の必要単位数' %>
+      <%= form.number_field :elective_credits, min: 0, step: 1, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :free_credits, '自由科目の必要単位数' %>
+      <%= form.number_field :free_credits, min: 0, step: 1, required: true %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit '保存', class: 'btn btn-primary' %>
+      <%= link_to 'キャンセル', subjects_path, class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+</div>

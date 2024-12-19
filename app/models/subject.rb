@@ -1,6 +1,6 @@
 class Subject < ApplicationRecord
   belongs_to :user
-  belongs_to :category
+  
 
   with_options presence: true do
     validates :name, length: { maximum: 100 }

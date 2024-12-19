@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 class="page-title">卒業要件の新規作成</h1>
+
+  <%= form_with(model: @graduation_requirement, local: true, class: 'graduation-requirement-form') do |form| %>
+    <% if @graduation_requirement.errors.any? %>
+      <div class="error-message">
+        <h2><%= pluralize(@graduation_requirement.errors.count, "error") %> prohibited this graduation requirement from being saved:</h2>
+        <ul>
+          <% @graduation_requirement.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :required_credits, '必要単位数' %>
+      <%= form.number_field :required_credits %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :required_credits, '必修科目の必要単位数' %>
+      <%= form.number_field :required_core_credits, min: 0, step: 1, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :elective_credits, '選択科目の必要単位数' %>
+      <%= form.number_field :elective_credits, min: 0, step: 1, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :free_credits, '自由科目の必要単位数' %>
+      <%= form.number_field :free_credits, min: 0, step: 1, required: true %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit '保存', class: 'btn btn-primary' %>
+      <%= link_to 'キャンセル', graduation_requirements_path, class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+</div>

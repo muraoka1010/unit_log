@@ -28,6 +28,6 @@ class GraduationRequirementsController < ApplicationController
   private
 
   def graduation_requirement_params
-    params.require(:graduation_requirement).permit(:category_id, :required_credits)
+    params.require(:graduation_requirement).permit(:required_credits, :required_core_credits, :elective_credits, :free_credits)
   end
 end

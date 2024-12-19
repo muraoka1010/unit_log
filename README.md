@@ -9,6 +9,7 @@
 
 ### users
 - `has_many :subjects`
+`has_one :graduation_requirement`
 
 
 ## subjectsテーブル(科目情報)
@@ -21,23 +22,16 @@
 
 ### subjects
 - `belongs_to :user`
-- `belongs_to :category`
 
-##  categories テーブル (科目カテゴリの管理)
-| Column              | Type       | Options                        |
-| ------              | ---------- | ------------------------------ |
-| name                | string     | null: false                    |
-
-### categories
-`has_many :subjects`
-`has_one :graduation_requirement`
 
 
 ##  graduation_requirements テーブル (卒業要項)
-|Column	              | Type	      | Options                        |
-| ------              | ----------  | ------------------------------ |
-| category_id         | integer     | null: false, foreign_key: true |
-| required_credits    | integer     | null: false                    |
+| Column	                   | Type	       | Options                        |
+| ------                   | ----------  | ------------------------------ |
+| required_credits         | integer     | null: false                    |
+| required_core_credits    | integer     | null: false                    |
+| elective_credits         | integer     | null: false                    |
+| free_credits             | integer     | null: false                    |
 
 ### graduation_requirements
-`belongs_to :category`
+ `belongs_to :user`

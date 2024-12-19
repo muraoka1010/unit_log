@@ -10,29 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_12_202738) do
-  create_table "categories", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
+ActiveRecord::Schema[7.0].define(version: 2024_12_18_053802) do
   create_table "graduation_requirements", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "category_id", null: false
     t.integer "required_credits", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_graduation_requirements_on_category_id"
+    t.integer "required_core_credits"
+    t.integer "elective_credits"
+    t.integer "free_credits"
   end
 
   create_table "subjects", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.integer "credits", null: false
-    t.bigint "category_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_subjects_on_category_id"
+    t.string "category"
     t.index ["user_id"], name: "index_subjects_on_user_id"
   end
 
@@ -49,7 +43,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_12_202738) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "graduation_requirements", "categories"
-  add_foreign_key "subjects", "categories"
   add_foreign_key "subjects", "users"
 end

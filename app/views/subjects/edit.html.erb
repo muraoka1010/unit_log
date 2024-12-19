@@ -19,7 +19,6 @@
             <td><%= subject.credits %></td>
             <td><%= subject.category %></td>
             <td>
-              <button class="btn btn-edit" data-id="<%= subject.id %>">編集</button>
               <%= button_to '削除', subject_path(subject), method: :delete, class: 'btn btn-delete', data: { confirm: '本当に削除しますか？' } %>
             </td>
           </tr>
@@ -47,31 +46,10 @@
       </div>
 
       <%= form.submit '更新', class: 'btn btn-primary' %>
-      <button type="button" class="btn btn-secondary" id="cancel-edit">キャンセル</button>
+      <%= link_to 'キャンセル', subjects_path, class: 'btn btn-secondary' %>
     <% end %>
   </div>
 
-  <div class="add-form-container">
-    <h2>新規単位の追加</h2>
-    <%= form_with(model: Subject.new, local: true, class: 'add-form') do |form| %>
-      <div class="form-group">
-        <%= form.label :name, '講義名' %>
-        <%= form.text_field :name, required: true %>
-      </div>
-
-      <div class="form-group">
-        <%= form.label :credits, '単位数' %>
-        <%= form.number_field :credits, min: 0, step: 0.5, required: true %>
-      </div>
-
-      <div class="form-group">
-        <%= form.label :category, '分類' %>
-        <%= form.select :category, ['必修', '選択', '自由'], {}, required: true %>
-      </div>
-
-      <%= form.submit '追加', class: 'btn btn-primary' %>
-    <% end %>
-  </div>
 </div>
 
 <script>
