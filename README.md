@@ -17,7 +17,7 @@
 | ------              | ---------- | ------------------------------ |
 | name                | string     | null: false                    |
 | credits             | integer    | null: false                    |
-| category_id         | integer    | null: false                    |
+| category            | integer    | null: false                    |
 | user_id             | integer    | null: false                    |
 
 ### subjects

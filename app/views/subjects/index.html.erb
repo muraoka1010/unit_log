@@ -4,51 +4,69 @@
   <div class="dashboard-grid">
     <section class="card progress-overview">
       <h2>進捗状況の概要</h2>
-      <div class="progress-bars">
+       <div class="progress-bars">
+        <% 
+          # 進捗率を計算
+          core_progress = (@total_core_credits.to_f / @graduation_requirement.required_core_credits * 100).clamp(0, 100)
+          elective_progress = (@total_elective_credits.to_f / @graduation_requirement.elective_credits * 100).clamp(0, 100)
+          free_progress = (@total_free_credits.to_f / @graduation_requirement.free_credits * 100).clamp(0, 100)
+        %>
+
         <div class="progress-item">
           <label>必修科目</label>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 83%;" data-progress="83"></div>
-          </div>
-          <span class="progress-text">25/30単位 (83%)</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: <%= core_progress %>%;" data-progress="<%= core_progress %>"></div>
+            </div>
+            <span class="progress-text"><%= @total_core_credits %>/<%= @graduation_requirement.required_core_credits %>単位 (<%= core_progress.round %>%)</span>
         </div>
+
         <div class="progress-item">
           <label>選択科目</label>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 70%;" data-progress="70"></div>
-          </div>
-          <span class="progress-text">35/50単位 (70%)</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: <%= elective_progress %>%;" data-progress="<%= elective_progress %>"></div>
+           </div>
+           <span class="progress-text"><%= @total_elective_credits %>/<%= @graduation_requirement.elective_credits %>単位 (<%= elective_progress.round %>%)</span>
         </div>
+
         <div class="progress-item">
           <label>自由科目</label>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 60%;" data-progress="60"></div>
-          </div>
-          <span class="progress-text">12/20単位 (60%)</span>
-        </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: <%= free_progress %>%;" data-progress="<%= free_progress %>"></div>
+           </div>
+           <span class="progress-text"><%= @total_free_credits %>/<%= @graduation_requirement.free_credits %>単位 (<%= free_progress.round %>%)</span>
+       </div>
       </div>
-    </section>
+   </section>
 
     <section class="card remaining-units">
-      <h2>残り単位数</h2>
-      <div class="remaining-units-grid">
-        <div class="remaining-unit-item">
-          <span class="remaining-unit-label">必修</span>
-          <span class="remaining-unit-value">5単位</span>
+      <h2>取得単位数</h2>
+        <div class="remaining-units-grid scrollable">
+          <% 
+             subjects_by_category = @subjects.group_by(&:category)
+             total_credits = @subjects.sum(&:credits)
+             categories = { '必修' => '必修', '選択' => '選択', '自由' => '自由' }
+          %>
+
+          <% categories.each do |key, label| %>
+            <div>
+              <h3><%= label %></h3>
+              <ul>
+                <% if subjects_by_category[key] %>
+                  <% subjects_by_category[key].each do |subject| %>
+                    <li><%= subject.name %> (<%= subject.credits %> 単位)</li>
+                  <% end %>
+                <% else %>
+                  <li>該当する科目がありません。</li>
+                <% end %>
+              </ul>
+           </div>
+          <% end %>
+
+          <div class="remaining-unit-item total">
+           <span class="remaining-unit-label">合計</span>
+           <span class="remaining-unit-value"><%= total_credits %>単位</span>
+          </div>
         </div>
-        <div class="remaining-unit-item">
-          <span class="remaining-unit-label">選択</span>
-          <span class="remaining-unit-value">15単位</span>
-        </div>
-        <div class="remaining-unit-item">
-          <span class="remaining-unit-label">自由</span>
-          <span class="remaining-unit-value">8単位</span>
-        </div>
-        <div class="remaining-unit-item total">
-          <span class="remaining-unit-label">合計</span>
-          <span class="remaining-unit-value">28単位</span>
-        </div>
-      </div>
     </section>
 
     <section class="card unit-list">
@@ -60,16 +78,18 @@
             <option value="category">カテゴリ別</option>
           </select>
         </div>
-      <ul class="unit-items">
-       <% @subjects.each do |subject| %>
-        <li class="unit-item">
-          <span class="unit-name"><%= subject.name %></span>
-          <span class="unit-credits"><%= subject.credits %>単位</span>
-          <span class="unit-category"><%= subject.category %></span>
-          <%= link_to '単位を編集/削除', edit_subject_path(subject), class: 'btn btn-secondary', id: "edit-unit-#{subject.id}" %>
-        </li>
-       <% end %>
-      </ul>
+        <div class="scrollable">
+        <ul class="unit-items">
+          <% @subjects.each do |subject| %>
+            <li class="unit-item">
+              <span class="unit-name"><%= subject.name %></span>
+              <span class="unit-credits"><%= subject.credits %>単位</span>
+              <span class="unit-category"><%= subject.category %></span>
+              <%= link_to '単位を編集/削除', edit_subject_path(subject), class: 'btn btn-secondary', id: "edit-unit-#{subject.id}" %>
+            </li>
+          <% end %>
+        </ul>
+        </div>
     </section>
 
 
@@ -80,15 +100,20 @@
 
     <section class="card graduation-check">
       <h2>卒業要件チェック</h2>
-      <div class="graduation-status">
-        <p>現在の状況: <strong>残り28単位で卒業要件を満たします</strong></p>
-        <ul>
-          <li>必修科目: 残り5単位</li>
-          <li>選択科目: 残り15単位</li>
-          <li>自由科目: 残り8単位</li>
-        </ul>
-      </div>
+        <div class="graduation-status">
+          <p>現在の状況: 
+            <strong>
+              残り<%= @remaining_total_credits %>単位で卒業要件を満たします
+            </strong>
+         </p>
+         <ul>
+           <li>必修科目: 残り<%= @remaining_core_credits %>単位</li>
+           <li>選択科目: 残り<%= @remaining_elective_credits %>単位</li>
+           <li>自由科目: 残り<%= @remaining_free_credits %>単位</li>
+         </ul>
+       </div>
     </section>
+
   </div>
 
   <div class="operation-menu">
