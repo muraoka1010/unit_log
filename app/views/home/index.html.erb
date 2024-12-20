@@ -1,16 +1,4 @@
 <div class="container">
-  <header class="app-header">
-    <h1>UnitLog</h1>
-    <nav class="auth-nav">
-      <% if user_signed_in? %>
-        <span class="user-greeting">こんにちは、<%= current_user.nickname %>さん</span>
-        <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: 'btn btn-outline' %>
-      <% else %>
-        <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
-        <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-outline' %>
-      <% end %>
-    </nav>
-  </header>
 
   <main class="app-main">
     <section class="app-description">

@@ -98,17 +98,6 @@ h2 {
   border-bottom: none;
 }
 
-.unit-item.required {
-  border-left: 4px solid #FF6384;
-}
-
-.unit-item.elective {
-  border-left: 4px solid #36A2EB;
-}
-
-.unit-item.free {
-  border-left: 4px solid #FFCE56;
-}
 
 .graduation-status ul {
   padding-left: 20px;

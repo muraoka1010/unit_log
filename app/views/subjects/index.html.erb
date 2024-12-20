@@ -95,8 +95,59 @@
 
     <section class="card unit-graph">
       <h2>単位取得状況グラフ</h2>
-      <canvas id="unitChart"></canvas>
+        <canvas id="unitChart"></canvas>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      // データの取得
+      const totalCoreCredits = <%= @total_core_credits %>;
+      const totalElectiveCredits = <%= @total_elective_credits %>;
+      const totalFreeCredits = <%= @total_free_credits %>;
+
+      const requiredCoreCredits = <%= @graduation_requirement.required_core_credits %>;
+      const requiredElectiveCredits = <%= @graduation_requirement.elective_credits %>;
+      const requiredFreeCredits = <%= @graduation_requirement.free_credits %>;
+
+      // グラフデータ
+      const chartData = {
+        labels: ['必修科目', '選択科目', '自由科目'],
+         datasets: [{
+          data: [
+            (totalCoreCredits / requiredCoreCredits * 100).toFixed(2),
+            (totalElectiveCredits / requiredElectiveCredits * 100).toFixed(2),
+            (totalFreeCredits / requiredFreeCredits * 100).toFixed(2)
+          ],
+        backgroundColor: ['#4caf50', '#2196f3', '#ff9800'],
+        hoverBackgroundColor: ['#66bb6a', '#42a5f5', '#ffb74d']
+        }]
+      };
+
+      // グラフオプション
+      const chartOptions = {
+        responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (tooltipItem) {
+                  return `${tooltipItem.label}: ${tooltipItem.raw}%`;
+                }
+              }
+            }
+          }
+      };
+
+      // 円グラフの描画
+      const ctx = document.getElementById('unitChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'pie',
+          data: chartData,
+          options: chartOptions
+        });
+      });
+    </script>
+
 
     <section class="card graduation-check">
       <h2>卒業要件チェック</h2>

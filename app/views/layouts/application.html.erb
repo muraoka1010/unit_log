@@ -5,12 +5,26 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
+    <% unless devise_controller? %> <!-- Deviseコントローラの場合はヘッダーを表示しない -->
+      <header class="app-header">
+        <h1><%= link_to 'UnitLog', root_path, class: 'app-title-link' %></h1>
+        <nav class="auth-nav">
+          <% if user_signed_in? %>
+            <span class="user-greeting">こんにちは、<%= current_user.nickname %>さん</span>
+            <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: 'btn btn-outline' %>
+          <% else %>
+            <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
+            <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-outline' %>
+          <% end %>
+        </nav>
+      </header>
+    <% end %>
+
     <% if flash[:notice] %>
       <p class="notice"><%= flash[:notice] %></p>
     <% end %>
@@ -18,6 +32,9 @@
       <p class="alert"><%= flash[:alert] %></p>
     <% end %>
 
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>
+
