@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_18_053802) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_21_025832) do
   create_table "graduation_requirements", charset: "utf8mb3", force: :cascade do |t|
     t.integer "required_credits", null: false
     t.datetime "created_at", null: false
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_18_053802) do
     t.integer "required_core_credits"
     t.integer "elective_credits"
     t.integer "free_credits"
+    t.integer "user_id"
   end
 
   create_table "subjects", charset: "utf8mb3", force: :cascade do |t|

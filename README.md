@@ -26,12 +26,13 @@
 
 
 ##  graduation_requirements テーブル (卒業要項)
-| Column	                   | Type	       | Options                        |
+| Column	                 | Type	       | Options                        |
 | ------                   | ----------  | ------------------------------ |
 | required_credits         | integer     | null: false                    |
 | required_core_credits    | integer     | null: false                    |
 | elective_credits         | integer     | null: false                    |
 | free_credits             | integer     | null: false                    |
+| user_id                  | integer     | null: false                    |
 
 ### graduation_requirements
  `belongs_to :user`

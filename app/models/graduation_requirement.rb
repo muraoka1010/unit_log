@@ -1,4 +1,5 @@
 class GraduationRequirement < ApplicationRecord
+  belongs_to :user
   # 必須フィールドのバリデーション
   validates :required_credits, :required_core_credits, :elective_credits, :free_credits, presence: true
 
