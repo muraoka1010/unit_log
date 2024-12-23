@@ -31,8 +31,8 @@ URL
   Ruby,Javascript,Chart.js
 ローカルでの動作方法
   以下のコマンドを順に実行
-  % git clone 
-  % cd 
+  % git clone https://github.com/muraoka1010/unit_log.git
+  % cd unit_log
   % bundle install
   % rails db:create
   % rails db:migrate
