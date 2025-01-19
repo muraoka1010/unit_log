@@ -19,6 +19,7 @@
             <td><%= subject.credits %></td>
             <td><%= subject.category %></td>
             <td>
+              <%= link_to '編集', edit_subject_path(subject), class: 'btn btn-edit' %>
               <%= button_to '削除', subject_path(subject), method: :delete, class: 'btn btn-delete', data: { confirm: '本当に削除しますか？' } %>
             </td>
           </tr>
