@@ -3,7 +3,7 @@
 
   <div class="unit-list">
     <h2>登録済み単位一覧</h2>
-    <table class="unit-table">
+    <table class="units-table">
       <thead>
         <tr>
           <th>講義名</th>
@@ -18,7 +18,7 @@
             <td><%= subject.name %></td>
             <td><%= subject.credits %></td>
             <td><%= subject.category %></td>
-            <td>
+            <td class="action-buttons">
               <%= link_to '編集', edit_subject_path(subject), class: 'btn btn-edit' %>
               <%= button_to '削除', subject_path(subject), method: :delete, class: 'btn btn-delete', data: { confirm: '本当に削除しますか？' } %>
             </td>

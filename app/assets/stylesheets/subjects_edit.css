@@ -13,6 +13,7 @@ h1 {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  table-layout: fixed;
 }
 
 .units-table th,
@@ -35,6 +36,12 @@ h1 {
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px; 
+
 }
 
 .btn-edit {
